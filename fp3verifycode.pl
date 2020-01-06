@@ -25,7 +25,7 @@ if (!defined($imei) || length($imei) != 15 ||
 # the key
 my $key = "$imei$serial";
 my $md5 = md5_hex($key);
-print "md5 : $md5\n";
+print "md5: $md5\n";
 
 # weird checksum over the first 8 characters in the md5sum...
 my $chk = 0;
@@ -33,4 +33,4 @@ for (my $i = 0; $i < 8; $i++) {
     $chk += ord(substr($md5,$i,1)) * 256**($i%4);
 }
 $chk &= 0xFFFFFFFF;
-printf("chk: %08x\n", $chk);
+printf("code: %08x\n", $chk);
