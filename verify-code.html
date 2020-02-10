@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP3 'verify code' generator</title>
+  </head>
+  <body>
+    <h2>FP3 'verify code' generator</h2>
+
+    <p>A big thanks to <a href="https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/11?u=rugk" target="_blank">_tmp</a> and <a href="https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/17?u=rugk">z3ntu</a> in the Fairphone Forum</a> for the code behind this site!</p>
+
+    <p>Enter the IMEI (slot 1) and serial number values from your phone and press submit.</p>
+    <p>You can find those numbers under “About phone” - “Model &amp; hardware” in the Settings app.</p>
+
+    <form method="post">
+      IMEI1:<br>
+      <input type="text" name="imei"><br>
+      Serial:<br>
+      <input type="text" name="serial"><br>
+      <input type="submit" value="Submit">
+    </form>
+    
+    <h2 style="color: red" id="error"></h2>
+    <h3 id="result"></h3>
+    
+    <script>
+        // hack md5 functionality into JS, 'cause in 2020 nobody wants to use this anymore and the JS Web Crypto API only provides secure stuff like SHA-256🙄
+        // thx @orfruit, https://stackoverflow.com/a/49050183/5008962
+        function md5Hash(d){return rstr2hex(binl2rstr(binl_md5(rstr2binl(d),8*d.length)))}function rstr2hex(d){for(var _,m="0123456789ABCDEF",f="",r=0;r<d.length;r++)_=d.charCodeAt(r),f+=m.charAt(_>>>4&15)+m.charAt(15&_);return f}function rstr2binl(d){for(var _=Array(d.length>>2),m=0;m<_.length;m++)_[m]=0;for(m=0;m<8*d.length;m+=8)_[m>>5]|=(255&d.charCodeAt(m/8))<<m%32;return _}function binl2rstr(d){for(var _="",m=0;m<32*d.length;m+=8)_+=String.fromCharCode(d[m>>5]>>>m%32&255);return _}function binl_md5(d,_){d[_>>5]|=128<<_%32,d[14+(_+64>>>9<<4)]=_;for(var m=1732584193,f=-271733879,r=-1732584194,i=271733878,n=0;n<d.length;n+=16){var h=m,t=f,g=r,e=i;f=md5_ii(f=md5_ii(f=md5_ii(f=md5_ii(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_ff(f=md5_ff(f=md5_ff(f=md5_ff(f,r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+0],7,-680876936),f,r,d[n+1],12,-389564586),m,f,d[n+2],17,606105819),i,m,d[n+3],22,-1044525330),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+4],7,-176418897),f,r,d[n+5],12,1200080426),m,f,d[n+6],17,-1473231341),i,m,d[n+7],22,-45705983),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+8],7,1770035416),f,r,d[n+9],12,-1958414417),m,f,d[n+10],17,-42063),i,m,d[n+11],22,-1990404162),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+12],7,1804603682),f,r,d[n+13],12,-40341101),m,f,d[n+14],17,-1502002290),i,m,d[n+15],22,1236535329),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+1],5,-165796510),f,r,d[n+6],9,-1069501632),m,f,d[n+11],14,643717713),i,m,d[n+0],20,-373897302),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+5],5,-701558691),f,r,d[n+10],9,38016083),m,f,d[n+15],14,-660478335),i,m,d[n+4],20,-405537848),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+9],5,568446438),f,r,d[n+14],9,-1019803690),m,f,d[n+3],14,-187363961),i,m,d[n+8],20,1163531501),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+13],5,-1444681467),f,r,d[n+2],9,-51403784),m,f,d[n+7],14,1735328473),i,m,d[n+12],20,-1926607734),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+5],4,-378558),f,r,d[n+8],11,-2022574463),m,f,d[n+11],16,1839030562),i,m,d[n+14],23,-35309556),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+1],4,-1530992060),f,r,d[n+4],11,1272893353),m,f,d[n+7],16,-155497632),i,m,d[n+10],23,-1094730640),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+13],4,681279174),f,r,d[n+0],11,-358537222),m,f,d[n+3],16,-722521979),i,m,d[n+6],23,76029189),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+9],4,-640364487),f,r,d[n+12],11,-421815835),m,f,d[n+15],16,530742520),i,m,d[n+2],23,-995338651),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+0],6,-198630844),f,r,d[n+7],10,1126891415),m,f,d[n+14],15,-1416354905),i,m,d[n+5],21,-57434055),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+12],6,1700485571),f,r,d[n+3],10,-1894986606),m,f,d[n+10],15,-1051523),i,m,d[n+1],21,-2054922799),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+8],6,1873313359),f,r,d[n+15],10,-30611744),m,f,d[n+6],15,-1560198380),i,m,d[n+13],21,1309151649),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+4],6,-145523070),f,r,d[n+11],10,-1120210379),m,f,d[n+2],15,718787259),i,m,d[n+9],21,-343485551),m=safe_add(m,h),f=safe_add(f,t),r=safe_add(r,g),i=safe_add(i,e)}return Array(m,f,r,i)}function md5_cmn(d,_,m,f,r,i){return safe_add(bit_rol(safe_add(safe_add(_,d),safe_add(f,i)),r),m)}function md5_ff(d,_,m,f,r,i,n){return md5_cmn(_&m|~_&f,d,_,r,i,n)}function md5_gg(d,_,m,f,r,i,n){return md5_cmn(_&f|m&~f,d,_,r,i,n)}function md5_hh(d,_,m,f,r,i,n){return md5_cmn(_^m^f,d,_,r,i,n)}function md5_ii(d,_,m,f,r,i,n){return md5_cmn(m^(_|~f),d,_,r,i,n)}function safe_add(d,_){var m=(65535&d)+(65535&_);return(d>>16)+(_>>16)+(m>>16)<<16|65535&m}function bit_rol(d,_){return d<<_|d>>>32-_};
+    
+        const form = document.querySelector("form");
+        
+        // imei 123456789012345, serial A1234567890 -> 6a716e9d
+        function calculateUnlockCode(imei, serial) {
+            // input length check
+            if (!imei || imei.length != 15 ||
+                !serial || serial.length < 10
+            ) {
+                throw new TypeError("IMEI must be 15 characters and serial must be longer than 10 characters.");
+            }
+            
+            // format check
+            if (
+                !Number(imei) ||
+                !serial.match(/^[0-9A-Z]+$/) 
+            ) {
+                throw new TypeError("Format of IMEI or serial number invalid.");
+            }
+            
+            console.log(`imei: ${imei}`);
+            console.log(`serial: ${serial}`);
+            
+            // calculate
+            
+            // the key
+            const key = `${imei}${serial}`;
+            const md5 = md5Hash(key);
+            console.debug(`md5: ${md5}`);
+            
+            // weird checksum over the first 8 characters in the md5sum…
+            let chk = 0;
+            for (let i = 0; i < 8; i++) {
+                chk += md5.charCodeAt(i) * 256**(i % 4);
+            }
+            // number to hex string
+            chk = chk.toString(16);
+            console.info(`chk: ${chk}`);
+            
+            return chk;
+        }
+        
+        form.addEventListener("submit", (event) => {
+            const data = new FormData(event.target);
+            
+            try {
+                const code = calculateUnlockCode(data.get("imei"), data.get("serial"));
+                document.getElementById("error").textContent = "";
+                document.getElementById("result").textContent = `Code: ${code}`;
+            } catch (error) {
+                document.getElementById("error").textContent = error.message;
+                document.getElementById("result").textContent = "";
+                throw error;
+            } finally {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+    
+  </body>
+</html>
