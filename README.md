@@ -18,4 +18,4 @@ You can also check that no network connections are made or just download the sin
 
 ## Credits
 
-Most credits go to [@_tmp](https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/11?u=rugk) for reverse-engineering the code and implementing in Perl and to [@z3ntu](https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/17?u=rugk) in the Fairphone forum for the PHP port.
+Most credits go to [@_tmp](https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/11?u=rugk) for reverse-engineering the code and implementing it in Perl and to [@z3ntu](https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231/17?u=rugk) in the Fairphone forum for the PHP port.
