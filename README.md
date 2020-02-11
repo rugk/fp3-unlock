@@ -7,9 +7,9 @@ Generates the FP3 verify code for bootloader unlocking locally in your browser (
 If you don't trust this here, the same code should be mirrored at:
 * GitHub: https://rugk.github.io/fp3-unlock/
 * GitLab: https://rugk.gitlab.io/fp3-unlock/
-* Neocities: https://rugk.neocities.org/fp3-unlock/
+* Neocities: https://rugk.neocities.org/fp3-unlock/ (updated manually)
 
-You can also check that no network connections are made or just download this single file and open it locally.
+You can also check that no network connections are made or just download the single HTML file and open it locally.
 
 ## Alternatives
 
