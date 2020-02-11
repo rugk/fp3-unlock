@@ -1,6 +1,6 @@
 # FP3 unlock
 
-Generates the FP3 verify code for bootloader unlocking locally in your browser (the private way™).
+Generates the FP3 verify code for bootloader unlocking locally in your browser (the private way™). See [the Fairphone forum post](https://forum.fairphone.com/t/oem-unlock-input-verify-code/56231?u=rugk).
 
 ## Mirrors
 
